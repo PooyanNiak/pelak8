@@ -33,7 +33,6 @@ class SheypoorSpider(CrawlSpider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        print(response)
         rows = response.xpath('//div[@class="content"]//h2/a/@href').extract()
         for row in rows:
             link = row

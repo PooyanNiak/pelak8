@@ -26,3 +26,15 @@ class EstateItem(DjangoItem):
     store = scrapy.Field()
     image_url = scrapy.Field()
 
+    # IranFile extra properties
+    date = scrapy.Field()
+    owner = scrapy.Field()
+    phone = scrapy.Field()
+    direction = scrapy.Field()
+    floor = scrapy.Field()
+    balcon = scrapy.Field()
+    equipments = scrapy.Field()
+    address = scrapy.Field()
+    description = scrapy.Field()
+    url = scrapy.Field()
+    source = scrapy.Field()
