@@ -1,3 +1,4 @@
+
 import scrapy
 from scrapy_selenium import SeleniumRequest
 from crawling.items import EstateItem
@@ -25,7 +26,6 @@ translateDict = {
     "آسانسور": "elevator",
     "قیمت هر متر": "ppm",
 }
-SELENIUM_IS_HEADLESS = False
 
 
 class SheypoorSpider(CrawlSpider):
@@ -40,7 +40,7 @@ class SheypoorSpider(CrawlSpider):
             "https://iranfile.net/search.aspx",
         ]
         for url in urls:
-            yield SeleniumRequest(
+            yield scrapy.Request(
                 url=url,
                 callback=self.parse,
                 cookies=[{"name": ".ASPXAUTH", "value": cookie,}],
@@ -73,8 +73,15 @@ class SheypoorSpider(CrawlSpider):
         }
         chrome_options = Options()
         chrome_options.add_argument("--headless")
-        self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.implicitly_wait(5)
+        chrome_options.add_argument("--no-sandbox");
+        #chrome_options.add_argument("--disable-dev-shm-usage");
+        chrome_options.add_argument("--remote-debugging-port=9222")  # this
+ 
+        chrome_options.add_argument("--disable-dev-shm-using") 
+        chrome_options.add_argument("--disable-extensions") 
+        chrome_options.add_argument("--disable-gpu") 
+        self.driver = webdriver.Chrome(executable_path="/usr/bin/chromedriver",options=chrome_options)
+       	self.driver.implicitly_wait(5)
         self.driver.get(response.url)
         searchBtn = self.driver.find_element_by_xpath('//button[@id="btnSearchM"]')
         searchBtn.click()

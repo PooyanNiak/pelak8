@@ -16,7 +16,7 @@ class Estate(models.Model):
     #     COM = "Commercial"
     #     VIL = "Villa"
 
-    title = models.CharField(max_length=120, unique=True)
+    title = models.CharField(max_length=120)
     price = models.PositiveIntegerField(blank=True, null=True)
     region = models.CharField(max_length=320, blank=True, null=True)
     area = models.PositiveIntegerField(blank=True, null=True)
@@ -46,4 +46,5 @@ class Estate(models.Model):
         if self.owner:
             return self.title + " - " + self.owner
         return self.title
-
+    class Meta:
+        unique_together = [['price', 'title']]
