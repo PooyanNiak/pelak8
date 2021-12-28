@@ -63,7 +63,8 @@ class SheypoorSpider(CrawlSpider):
             i["image_url"] = response.xpath(
                 '//*[@class="slideshow "]//img/@src', first=True
             ).get()
-
+        i["url"] = response.url
+        i["source"] = "sheypoor"
         features = response.xpath("//tr")
         for feature in features:
             label = feature.css("th ::text")[0].get()

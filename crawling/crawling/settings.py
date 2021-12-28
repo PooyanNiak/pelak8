@@ -6,7 +6,7 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-import os
+import os  
 import sys
 from shutil import which
 
@@ -25,8 +25,8 @@ NEWSPIDER_MODULE = "crawling.spiders"
 
 DOWNLOADER_MIDDLEWARES = {"scrapy_selenium.SeleniumMiddleware": 800}
 
-SELENIUM_DRIVER_NAME = 'firefox'
-SELENIUM_DRIVER_EXECUTABLE_PATH = which('geckodriver')
+#QSELENIUM_DRIVER_NAME = 'firefox'
+#SELENIUM_DRIVER_EXECUTABLE_PATH = which('geckodriver') 
 SELENIUM_DRIVER_ARGUMENTS=['-headless']  # '--headless' if using chrome instead of firefox
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
