@@ -83,18 +83,52 @@ class SheypoorSpider(CrawlSpider):
         self.driver = webdriver.Chrome(options=chrome_options)
         self.driver.implicitly_wait(5)
         self.driver.get(response.url)
-        searchBtn = self.driver.find_element_by_xpath('//button[@id="btnSearchM"]')
-        searchBtn.click()
-        time.sleep(15)
-        rows = self.driver.find_elements_by_xpath(
-            '//button[@class="list-group-item row_striped"]//a'
-        )
+
         self.driver.add_cookie(
             {
                 "name": ".ASPXAUTH",
                 "value": "7516586128311E5D62B73F18CF33BE6325C6B12063EFA5604F2B411491710486FA5EF26292E83145066753B2131920BFE92D86505A9EFB14395CF6CF2CECBB4CD5C05B650E393F8B62B6884B5F7312F018F747B256EDB65D8ADD74E81560741A5F7A22C48C55B6DBB4AE2705C2AC410BC03C0CCA",
             }
         )
+        searchBtn = self.driver.find_element_by_xpath('//button[@id="btnSearchM"]')
+        searchBtn.click()
+        time.sleep(15)
+        rows = []
+        container = self.driver.find_elements_by_xpath(
+            '//ul[@id="searchResultM"]//button'
+        )
+        print("lennnnnnnnnnnnnnnnnnnnnnnnn", len(container))
+        rows.extend(
+            self.driver.find_elements_by_xpath('//button[@class="list-group-item"]//a')
+        )
+        rows.extend(
+            self.driver.find_elements_by_xpath(
+                '//button[@class="list-group-item row_striped"]//a'
+            )
+        )
+        # for row in container:
+        #     self.driver.execute_script("arguments[0].scrollIntoView(true);", row)
+        #     rows.extend(
+        #         self.driver.find_elements_by_xpath(
+        #             '//ul[@id="searchResultM"]//button[@class="list-group-item"]//a'
+        #         )
+        #     )
+        #     rows.extend(
+        #         self.driver.find_elements_by_xpath(
+        #             '//ul[@id="searchResultM"]//button[@class="list-group-item row_striped"]//a'
+        #         )
+        #     )
+        # print(
+        #     "******************************* rows Num : ",
+        #     len(rows),
+        #     " ************************************",
+        # )
+        # uniqueRows = list(dict.fromkeys(rows))
+        # print(
+        #     "******************************* uniques Num : ",
+        #     len(uniqueRows),
+        #     " ************************************",
+        # )
         for row in rows:
             print("row ********************************", row.get_attribute("href"))
             if "fs.aspx" in row.get_attribute("href"):
@@ -113,12 +147,12 @@ class SheypoorSpider(CrawlSpider):
     def parse_item(self, response):
         i = EstateItem()
         self.driver.get(response.url)
-        time.sleep(5)
+        time.sleep(15)
         region = self.driver.find_elements_by_xpath('//*[@id="lbRegion"]')[0].text
         title_type = self.driver.find_elements_by_xpath("//h4[@id='lbTitle']")[0].text
         date = self.driver.find_elements_by_xpath('//*[@id="lbIranDate"]')[0].text
         owner = self.driver.find_elements_by_xpath('//*[@id="lbOwner"]')[0].text
-        phone = self.driver.find_elements_by_xpath('//*[@id="lbTel"]//a')[0]
+        phone = self.driver.find_elements_by_xpath('//*[@id="lbTel"]//a')
         price = self.driver.find_elements_by_xpath('//*[@id="lbTotalPrice"]')[0].text
         rooms = self.driver.find_elements_by_xpath('//*[@id="lbFloorNo"]')[0].text
         ppm = self.driver.find_elements_by_xpath('//*[@id="lbUnitPrice"]')[0].text
