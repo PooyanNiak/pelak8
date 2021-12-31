@@ -9,13 +9,7 @@ class ImageList(models.Model):
 
 
 class Estate(models.Model):
-    # Todo : change EstateType to TextChoices
-    # class EstateType(models.TextChoices):
-    #     APA = "Apartement"
-    #     HOU = "House"
-    #     COM = "Commercial"
-    #     VIL = "Villa"
-
+    url = models.CharField(max_length=350, blank=True, null=True, unique=True)
     title = models.CharField(max_length=120)
     price = models.PositiveIntegerField(blank=True, null=True)
     region = models.CharField(max_length=320, blank=True, null=True)
@@ -39,12 +33,10 @@ class Estate(models.Model):
     description = models.CharField(max_length=250, blank=True, null=True)
     equipments = models.CharField(max_length=350, blank=True, null=True)
     address = models.CharField(max_length=250, blank=True, null=True)
-    url = models.CharField(max_length=350, blank=True, null=True)
     source = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         if self.owner:
             return self.title + " - " + self.owner
         return self.title
-    class Meta:
-        unique_together = [['price', 'title']]
+
